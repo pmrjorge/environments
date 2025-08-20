@@ -1,16 +1,16 @@
-FROM nvidia/cuda:13.0.0-cudnn-runtime-ubuntu24.04 AS engine
+FROM ubuntu:24.04 AS engine
 
 LABEL authors="pmrj"
 
 WORKDIR /root
 USER root
-ENV CONDA_HOME=/miniconda3/bin/conda
+ENV CONDA_PATH=/miniconda3/bin/conda
 ENV CONDA_DIR=/miniconda3
 
 ARG USER_NAME="Pedro Jorge"
 ARG USER_EMAIL="tree@rustcircle.com"
 
-RUN apt-get update && apt-get install apt-utils && apt-get install -y unzip git wget curl nginx openssh-server gcc g++ build-essential cmake clang make && \
+RUN apt-get update && apt-get install apt-utils && apt-get install -y git wget curl  && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN git config --global user.name $USER_NAME
@@ -45,21 +45,4 @@ RUN chmod +x /install.sh
 
 RUN /install.sh
 
-SHELL ["conda", "run", "-n", "engine", "/bin/bash", "-c"]
-
-RUN conda run -n engine jupyter lab --generate-config
-
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN sed -i 's/#PasswordAuthentication no/PasswordAuthentication no/' /etc/ssh/sshd_config
-
-RUN mkdir /var/run/sshd && chmod 0755 /var/run/sshd
-
-ADD start.sh /start.sh
-
-RUN chmod +x /start.sh
-
-WORKDIR /workspace
-VOLUME ["/workspace"]
-
-EXPOSE 8888 8080 22 80
-ENTRYPOINT ["/start.sh"]
+ENTRYPOINT ["/bin/bash", "-i", "-c"]
