@@ -4,8 +4,8 @@ LABEL authors="pmrj"
 
 WORKDIR /root
 USER root
-ENV CONDA_PATH=/miniconda3/bin/conda
-ENV CONDA_DIR=/miniconda3
+ENV CONDA_PATH=/opt/conda/bin/conda
+ENV CONDA_DIR=/opt/conda
 
 ARG USER_NAME="Pedro Jorge"
 ARG USER_EMAIL="tree@rustcircle.com"

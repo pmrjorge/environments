@@ -4,12 +4,12 @@ LABEL authors="pmrj"
 
 WORKDIR /root
 USER root
-ENV CONDA_DIR=/miniconda3
+ENV CONDA_DIR=/opt/conda
 
 ARG USER_NAME="Pedro Jorge"
 ARG USER_EMAIL="tree@rustcircle.com"
 
-RUN apt-get update && apt-get install apt-utils && apt-get install -y unzip git wget curl nginx openssh-server gcc g++ build-essential cmake clang make && \
+RUN apt-get update && apt-get install apt-utils && apt-get install -y unzip git wget curl nginx openssh-server gcc g++ build-essential cmake clang llvm make && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN git config --global user.name $USER_NAME
@@ -44,7 +44,7 @@ RUN /install.sh
 
 SHELL ["conda", "run", "-n", "engine", "/bin/bash", "-c"]
 
-ADD install_torch.sh /install_torch.sh
+ADD install_jax.sh /install_jax.sh
 
 RUN chmod +x /install_jax.sh
 
