@@ -7,7 +7,7 @@ USER root
 ENV CONDA_DIR=/miniconda3
 
 ARG USER_NAME="Pedro Jorge"
-ARG USER_EMAIL="pmrjge@gmail.com"
+ARG USER_EMAIL="tree@rustcircle.com"
 
 RUN apt-get update && apt-get install apt-utils && apt-get install -y git wget curl nginx openssh-server gcc g++ build-essential cmake clang make && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -34,13 +34,19 @@ RUN conda update -n base conda -y
 
 RUN conda config --set solver libmamba
 
-RUN conda create -n engine -c conda-forge python=3.13 langchain langgraph --solver libmamba -y
-
 ADD install.sh /install.sh
 
 RUN chmod +x /install.sh
 
 RUN /install.sh
+
+SHELL ["conda", "run", "-n", "engine", "/bin/bash", "-c"]
+
+ADD install_torch.sh /install_torch.sh
+
+RUN chmod +x /install_torch.sh
+
+RUN /install_torch.sh
 
 RUN conda run -n engine jupyter lab --generate-config
 
@@ -55,8 +61,6 @@ RUN chmod +x /start.sh
 
 WORKDIR /workspace
 VOLUME ["/workspace"]
-
-SHELL ["conda", "run", "-n", "pt", "/bin/bash", "-c"]
 
 EXPOSE 8888 8080 22 80
 ENTRYPOINT ["/start.sh"]
