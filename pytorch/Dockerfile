@@ -34,6 +34,8 @@ RUN conda update -n base conda -y
 
 RUN conda config --set solver libmamba
 
+RUN conda create -n engine -c conda-forge python=3.13 langchain chromadb langchain-huggingface langgraph --solver libmamba -y
+
 ADD install.sh /install.sh
 
 RUN chmod +x /install.sh

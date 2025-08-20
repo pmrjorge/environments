@@ -3,7 +3,7 @@ git clone https://github.com/pytorch/pytorch
 cd pytorch
 git submodule sync
 git submodule update --init --recursive
-conda install -n engine cmake ninja
+conda install -n engine cmake ninja -y
 conda run -n engine pip install -r requirements.txt
 conda run -n engine pip install mkl-static mkl-include
 conda run -n engine .ci/docker/common/install_magma_conda.sh 13.0
