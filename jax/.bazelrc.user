@@ -1,0 +1,12 @@
+build --strategy=Genrule=standalone
+build --action_env CLANG_COMPILER_PATH="/usr/bin/clang-18"
+build --repo_env CC="/usr/bin/clang-18"
+build --repo_env BAZEL_COMPILER="/usr/bin/clang-18"
+build --copt=-Wno-error=unused-command-line-argument
+build --copt=-Wno-gnu-offsetof-extensions
+build --config=avx_posix
+build --config=mkl_open_source_only
+build --config=cuda
+build --config=nvcc_clang
+build --action_env=CLANG_CUDA_COMPILER_PATH=/usr/bin/clang-18
+build --repo_env HERMETIC_PYTHON_VERSION="3.13"

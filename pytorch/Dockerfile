@@ -42,13 +42,15 @@ RUN chmod +x /install.sh
 
 RUN /install.sh
 
-SHELL ["conda", "run", "-n", "engine", "/bin/bash", "-c"]
-
 ADD install_torch.sh /install_torch.sh
 
-RUN chmod +x /install_jax.sh
+RUN chmod +x /install_torch.sh
 
-RUN /install_jax.sh
+RUN . /install_torch.sh
+
+SHELL ["/bin/bash", "-i", "-c"]
+
+RUN /install_torch.sh
 
 RUN conda run -n engine jupyter lab --generate-config
 

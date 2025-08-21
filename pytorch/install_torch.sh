@@ -1,6 +1,6 @@
 #!/bin/bash
 git clone https://github.com/pytorch/pytorch
-cd pytorch
+cd pytorch || exit
 git submodule sync
 git submodule update --init --recursive
 conda install -n engine cmake ninja -y
@@ -13,12 +13,12 @@ conda run -n engine python -m pip install --no-build-isolation -v -e .
 cd ..
 rm -rf pytorch
 git clone https://github.com/pytorch/TensorRT.git
-cd TensorRT
+cd TensorRT || exit
 conda run -n engine export BAZEL_VERSION=$(cat ${PWD}/.bazelversion)
 mkdir bazel
-cd bazel
-curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-dist.zip
-unzip bazel-$BAZEL_VERSION-dist.zip
+cd bazel || exit
+conda run -n engine curl -fSsL -O https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-dist.zip
+conda run -n engine unzip bazel-$BAZEL_VERSION-dist.zip
 conda run -n engine bash ./compile.sh
 cp output/bazel /usr/local/bin/
 conda run -n engine pip install --pre .
