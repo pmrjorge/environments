@@ -9,7 +9,7 @@ ENV CONDA_DIR=/opt/conda
 ARG USER_NAME="Pedro Jorge"
 ARG USER_EMAIL="pmrjge@gmail.com"
 
-RUN apt-get update && apt-get install apt-utils && apt-get install -y unzip git wget curl nginx openssh-server gcc g++ build-essential cmake clang make && \
+RUN apt-get update && apt-get install -y apt-utils && apt-get install -y unzip git wget curl nginx openssh-server gcc g++ build-essential cmake clang make && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN git config --global user.name $USER_NAME
