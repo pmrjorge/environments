@@ -1,4 +1,4 @@
-FROM nvidia/cuda:13.0.0-cudnn-runtime-ubuntu24.04 AS engine
+FROM nvidia/cuda:12.9.1-cudnn-runtime-ubuntu24.04 AS engine
 
 LABEL authors="pmrj"
 
