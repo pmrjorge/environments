@@ -1,4 +1,4 @@
-FROM ubuntu AS engine
+FROM nvidia/cuda:13.0.0-cudnn-runtime-ubuntu24.04 AS engine
 
 LABEL authors="pmrj"
 
@@ -34,7 +34,7 @@ RUN conda update -n base conda -y
 
 RUN conda config --set solver libmamba
 
-RUN conda create -n engine -c conda-forge python=3.14 langchain chromadb langchain-huggingface langgraph --solver libmamba -y
+RUN conda create -n engine -c conda-forge python=3.13 langchain chromadb langchain-huggingface langgraph --solver libmamba -y
 
 ADD install.sh /install.sh
 
@@ -42,7 +42,15 @@ RUN chmod +x /install.sh
 
 RUN /install.sh
 
+ADD install_torch.sh /install_torch.sh
+
+RUN chmod +x /install.sh
+
+RUN . /install.sh
+
 SHELL ["/bin/bash", "-i", "-c"]
+
+RUN /install.sh
 
 RUN conda run -n engine jupyter lab --generate-config
 
